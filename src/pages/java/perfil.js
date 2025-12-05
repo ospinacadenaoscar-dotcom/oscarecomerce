@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log("📡 Consultando perfil al servidor...");
         console.log("📧 Email a enviar:", perfil.Gmail);
         
-        const res = await fetch("http://localhost:8081/api/perfil/obterPerfil", {
+        const res = await fetch("https://techstoreapp.onrender.com/api/perfil/obterPerfil", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: perfil.Gmail }) // ← CAMBIO: Gmail → email

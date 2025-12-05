@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         console.log("📤 Enviando email:", perfil.Gmail);
         
-        const res = await fetch("http://localhost:8081/api/perfil/obterPerfil", {
+        const res = await fetch("https://techstoreapp.onrender.com/api/perfil/obterPerfil", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: perfil.Gmail })
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-            const res = await fetch("http://localhost:8081/api/perfil/actualizar", {
+            const res = await fetch("https://techstoreapp.onrender.com/api/perfil/actualizar", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -77,7 +77,7 @@ document.getElementById('formVerificar')?.addEventListener('submit', async (e) =
     console.log('📡 Enviando petición al servidor...');
 
     try {
-        const res = await fetch('http://localhost:8081/api/recuperar/solicitar-codigo', {
+        const res = await fetch('https://techstoreapp.onrender.com/api/recuperar/solicitar-codigo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 

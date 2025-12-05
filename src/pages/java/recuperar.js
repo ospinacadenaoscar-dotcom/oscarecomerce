@@ -23,7 +23,7 @@ async function enviarCodigo(event) {
     btnEnviar.disabled = true;
 
     try {
-        const res = await fetch('http://localhost:8081/api/recuperar/solicitar-codigo', {
+        const res = await fetch('https://techstoreapp.onrender.com/api/recuperar/solicitar-codigo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ Gmail: Gmail })

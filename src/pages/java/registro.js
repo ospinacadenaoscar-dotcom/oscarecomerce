@@ -1,5 +1,5 @@
 // ⚠️ CORREGIDO: Había un espacio antes de http
-const API_URL = 'http://localhost:8081/api/users/register';
+const API_URL = 'https://techstoreapp.onrender.com/api/users/register';
 
 console.log('✅ Script de registro cargado');
 
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error de conexión',
-                text: 'No se pudo conectar con el servidor. Verifica que esté corriendo en http://localhost:8081',
+                text: 'No se pudo conectar con el servidor. Verifica que esté corriendo en https://techstoreapp.onrender.com',
                 confirmButtonColor: '#9333ea'
             });
         }
