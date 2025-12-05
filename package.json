@@ -1,7 +1,24 @@
 {
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000o\u0000s\u0000c\u0000a\u0000r\u0000e\u0000c\u0000o\u0000m\u0000e\u0000r\u0000c\u0000e\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/style/input.css -o ./src/style/output.css --watch & npx live-server ./src",
+    "backend": "nodemon backend/server.js",
+    "css": "npx @tailwindcss/cli -i ./src/style/input.css -o ./src/style/output.css --watch"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "mongoose": "^8.19.3",
-    "nodemon": "^3.1.10"
-  }
+    "nodemon": "^3.1.10",
+    "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "live-server": "^1.2.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
