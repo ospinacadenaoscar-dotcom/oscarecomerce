@@ -1,8 +1,12 @@
+
 // funcion de cargar productos
 async function cargarProductos(){
     try{
         const response=await fetch('https://techstoreapp.onrender.com/api/productos');
         const productos=await response.json();
+
+        // ⭐ GUARDAR PRODUCTOS GLOBALMENTE (NUEVA LÍNEA)
+        window.todosLosProductos = productos;
 
         const grid= document.getElementById('productos-grid');
             grid.innerHTML=productos.map(producto=>`
@@ -44,7 +48,7 @@ async function cargarProductos(){
                     <button class="ver-deatalles-btn bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300 flex-1 text-sm">
                     Ver Detalles
                     </button>
-                    <button class="add-to-cart-btn bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex-1 text-sm">
+                    <button onclick="agregarAlCarrito('${producto._id || producto.id}')" class="add-to-cart-btn bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex-1 text-sm">
                     Comprar
                     </button>
                     </div>
@@ -52,14 +56,130 @@ async function cargarProductos(){
                 </div>
                 `).join('');
                 console.log("productos cargados con exito");
+                
+                // ⭐ ACTUALIZAR CONTADOR (NUEVA LÍNEA)
+                actualizarContador();
     }catch(error){
         console.error("error al cargar los productos",error);
     }
 }
-
 
 cargarProductos();
 
 setInterval(() => {
     cargarProductos();
 }, 5000); // 5000 ms = 5 segundos
+
+
+// ========================================
+// ⭐ CÓDIGO NUEVO - FUNCIONES DEL CARRITO
+// ========================================
+
+// Obtener carrito del localStorage
+let carrito = JSON.parse(localStorage.getItem('cart')) || [];
+
+// FUNCIÓN PRINCIPAL: Agregar al carrito
+window.agregarAlCarrito = function(productoId) {
+    console.log('🛒 Agregando producto:', productoId);
+    
+    // Buscar el producto
+    const producto = window.todosLosProductos.find(p => (p._id || p.id) === productoId);
+    
+    if (!producto) {
+        alert('Producto no encontrado');
+        return;
+    }
+    
+    // Verificar si ya está en el carrito
+    const yaExiste = carrito.find(item => item.id === productoId);
+    
+    if (yaExiste) {
+        mostrarNotificacion('Este producto ya está en tu carrito 🛒', 'info');
+        return;
+    }
+    
+    // Crear objeto para el carrito
+    const itemCarrito = {
+        id: producto._id || producto.id,
+        name: producto.Nombre,
+        price: producto.Precio || 0,
+        image: producto.imagen,
+        category: producto.categoria || 'General'
+    };
+    
+    // Agregar al carrito
+    carrito.push(itemCarrito);
+    
+    // Guardar en localStorage
+    localStorage.setItem('cart', JSON.stringify(carrito));
+    
+    // Actualizar contador
+    actualizarContador();
+    
+    // Mostrar notificación
+    mostrarNotificacion(`✅ ${producto.Nombre} agregado al carrito`, 'success');
+    
+    // Animar ícono
+    animarCarrito();
+    
+    console.log('✅ Carrito actualizado:', carrito);
+};
+
+// Actualizar contador del carrito
+function actualizarContador() {
+    const contador = document.getElementById('cart-counter');
+    
+    if (!contador) return;
+    
+    carrito = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (carrito.length > 0) {
+        contador.textContent = carrito.length;
+        contador.style.display = 'flex';
+    } else {
+        contador.style.display = 'none';
+    }
+}
+
+// Animar ícono del carrito
+function animarCarrito() {
+    const icono = document.querySelector('.cart-icon');
+    if (icono) {
+        icono.classList.add('animate-bounce');
+        setTimeout(() => {
+            icono.classList.remove('animate-bounce');
+        }, 500);
+    }
+}
+
+// Mostrar notificación
+function mostrarNotificacion(mensaje, tipo = 'success') {
+    const colores = {
+        success: 'bg-green-500',
+        info: 'bg-blue-500',
+        error: 'bg-red-500'
+    };
+    
+    const notif = document.createElement('div');
+    notif.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-xl shadow-2xl ${colores[tipo]} text-white font-semibold transition-all duration-500`;
+    notif.style.transform = 'translateX(400px)';
+    notif.textContent = mensaje;
+    
+    document.body.appendChild(notif);
+    
+    setTimeout(() => {
+        notif.style.transform = 'translateX(0)';
+    }, 10);
+    
+    setTimeout(() => {
+        notif.style.transform = 'translateX(400px)';
+        setTimeout(() => notif.remove(), 500);
+    }, 3000);
+}
+
+// Actualizar contador al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    actualizarContador();
+});
+
+console.log('🛒 Sistema de carrito cargado');
