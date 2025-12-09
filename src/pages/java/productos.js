@@ -57,6 +57,7 @@ async function cargarProductos(){
     }
 }
 
+
 cargarProductos();
 
 setInterval(() => {
